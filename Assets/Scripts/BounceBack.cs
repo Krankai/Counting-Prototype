@@ -1,0 +1,58 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class BounceBack : MonoBehaviour
+{
+    public bool inside = false;        // todo: detect this automatically when ball fall into the box
+    public bool InsideBox { get; set; }
+
+    [SerializeField]
+    float bounceBackForce = 2.0f;
+
+    [SerializeField, Range(0f, 90f)]
+    float maxGroundAngle = 30f;
+
+    Rigidbody rb;
+    float minGroundNormal;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+        OnValidate();
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        HandleCollision(collision);
+    }
+
+    void OnCollisionStay(Collision collision)
+    {
+        HandleCollision(collision);
+    }
+
+    // Handle collision behaviour of the ball when comes into contact with the interior of the box
+    void HandleCollision(Collision collision)
+    {
+        if (InsideBox && collision.gameObject.CompareTag("Box"))
+        {
+            // Apply bouncing force when come into contact with 'wall' only
+            for (int i = 0, max = collision.contactCount; i < max; ++i)
+            {
+                var contactNormal = collision.GetContact(i).normal;
+                if (contactNormal.y <= minGroundNormal)     // not 'ground'
+                {
+                    rb.AddForce(contactNormal * bounceBackForce, ForceMode.Impulse);
+                }
+            }
+        }
+    }
+
+    void OnValidate()
+    {
+        // note: equals min dot product
+        minGroundNormal = Mathf.Cos(maxGroundAngle * Mathf.Deg2Rad);
+    }
+}
