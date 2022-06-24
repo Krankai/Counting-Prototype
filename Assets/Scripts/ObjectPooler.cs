@@ -29,6 +29,8 @@ public class ObjectPooler : MonoBehaviour
         {
             tempObject = Instantiate(objectToPool);
             tempObject.SetActive(false);
+            tempObject.transform.SetParent(transform);
+
             pooledObjects.Add(tempObject);
         }
     }
