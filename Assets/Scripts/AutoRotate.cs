@@ -18,14 +18,14 @@ public class AutoRotate : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        pivotVector = Vector3.up;
+        pivotVector = transform.up;
         if (pivotAxis == Axis.x)
         {
-            pivotVector = Vector3.right;
+            pivotVector = transform.right;
         }
         else if (pivotAxis == Axis.z)
         {
-            pivotVector = Vector3.forward;
+            pivotVector = transform.forward;
         }
     }
 
