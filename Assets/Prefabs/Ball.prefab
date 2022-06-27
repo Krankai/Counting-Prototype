@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9f78083e67619de4491076deeeeaa64d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -126,7 +126,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d0a43a726c9bf147aca09384e2c5fc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inside: 0
   bounceBackForce: 2
   maxGroundAngle: 30
 --- !u!114 &1980447892
@@ -142,5 +141,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rangeX: 10
-  rangeY: 10
   rangeZ: 10
+  minY: -10
+  maxY: 50

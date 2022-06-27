@@ -18,19 +18,20 @@ public class BoxDummyTrigger : MonoBehaviour
     {
         if (collide.CompareTag("Ball"))
         {
-            Debug.Log(boxColor);
-
-            var bounceBackScript = collide.GetComponent<BounceBack>();
-            bounceBackScript.InsideBox = true;
+            var ballScript = collide.GetComponent<BallBehaviour>();
+            ballScript.InsideBox = true;
 
             Rigidbody rb = collide.GetComponent<Rigidbody>();
             if (rb.velocity.y > 0)
             {
                 UpdateColorCount(-1);
+                --gameManager.BoxedBalls;
             }
             else
             {
                 UpdateColorCount(1);
+                ++gameManager.BoxedBalls;
+                Debug.Log(gameManager.BoxedBalls);
             }
         }
     }

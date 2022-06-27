@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    [SerializeField, Range(0, 30)]
-    int totalCount = 30;
+    [Range(0, 30)]
+    public int totalCount = 30;
 
     public float spawnCooldown = 0.5f;
 
@@ -16,6 +16,7 @@ public class SpawnManager : MonoBehaviour
     float spawnInterval = 2.5f;
 
     ObjectPooler pooler;
+
     Vector3 position;
 
     Vector3 vector3Zero = Vector3.zero;
@@ -61,7 +62,7 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    // Recollect destroyed objects back to the total allocated
+    // Recollect destroyed objects back to the total number allocated
     public void OnRecollectObject(GameObject objectToRecollect)
     {
         objectToRecollect.SetActive(false);

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BounceBack : MonoBehaviour
+public class BallBehaviour : MonoBehaviour
 {
     public bool InsideBox { get; set; }
 
@@ -13,11 +13,16 @@ public class BounceBack : MonoBehaviour
     float maxGroundAngle = 30f;
 
     Rigidbody rb;
+
     float minGroundNormal;
+
+    GameManager gameManager;
 
     // Start is called before the first frame update
     void Start()
     {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+
         rb = GetComponent<Rigidbody>();
         OnValidate();
     }

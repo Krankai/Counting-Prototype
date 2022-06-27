@@ -37,6 +37,21 @@ public class AutoRotate : MonoBehaviour
             transform.Rotate(pivotVector, Time.deltaTime * speed * Mathf.Rad2Deg);
         }
     }
+
+    public void EnableRotation()
+    {
+        isEnable = true;
+    }
+
+    public void DisableRotation()
+    {
+        isEnable = false;
+    }
+
+    public void SlowDown(float multiplier)
+    {
+        speed *= multiplier;
+    }
 }
 
 public enum Axis
