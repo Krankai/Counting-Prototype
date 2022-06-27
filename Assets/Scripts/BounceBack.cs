@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class BounceBack : MonoBehaviour
 {
-    public bool inside = false;        // todo: detect this automatically when ball fall into the box
     public bool InsideBox { get; set; }
 
     [SerializeField]
@@ -45,6 +44,14 @@ public class BounceBack : MonoBehaviour
                 if (contactNormal.y <= minGroundNormal)     // not 'ground'
                 {
                     rb.AddForce(contactNormal * bounceBackForce, ForceMode.Impulse);
+                }
+                else
+                {
+                    // Eliminate velocity along the y axis if touch 'ground'
+                    float velocityX = rb.velocity.x;
+                    float velocityZ = rb.velocity.z;
+
+                    rb.velocity = new Vector3(velocityX, 0f, velocityZ);
                 }
             }
         }
