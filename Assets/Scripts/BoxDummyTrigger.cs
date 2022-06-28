@@ -14,25 +14,30 @@ public class BoxDummyTrigger : MonoBehaviour
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
-    void OnTriggerEnter(Collider collide)
+    void OnTriggerEnter(Collider other)
     {
-        if (collide.CompareTag("Ball"))
+        if (other.CompareTag("Ball"))
         {
-            var ballScript = collide.GetComponent<BallBehaviour>();
+            var ballScript = other.GetComponent<BallBehaviour>();
             ballScript.InsideBox = true;
 
-            Rigidbody rb = collide.GetComponent<Rigidbody>();
-            if (rb.velocity.y > 0)
-            {
-                UpdateColorCount(-1);
-                --gameManager.BoxedBalls;
-            }
-            else
-            {
-                UpdateColorCount(1);
-                ++gameManager.BoxedBalls;
-                Debug.Log(gameManager.BoxedBalls);
-            }
+            //Rigidbody rb = collide.GetComponent<Rigidbody>();
+            //if (rb.velocity.y > 0)
+            //{
+            //    UpdateColorCount(-1);
+            //    --gameManager.BoxedBalls;
+            //    Debug.Log("out: " + gameManager.BoxedBalls);
+            //}
+            //else
+            //{
+            //    UpdateColorCount(1);
+            //    ++gameManager.BoxedBalls;
+            //    Debug.Log("in: " + gameManager.BoxedBalls);
+            //}
+
+            UpdateColorCount(1);
+            ++gameManager.BoxedBalls;
+            //Debug.Log("in: " + gameManager.BoxedBalls);
         }
     }
 
