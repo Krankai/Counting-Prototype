@@ -62,13 +62,15 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    // Recollect destroyed objects back to the total number allocated
-    public void OnRecollectObject(GameObject objectToRecollect)
+    public void RecollectDestroyedObject(GameObject objectToRecollect)
     {
         objectToRecollect.SetActive(false);
 
         Rigidbody rb = objectToRecollect.GetComponent<Rigidbody>();
         rb.velocity = rb.angularVelocity = vector3Zero;
+
+        BallBehaviour script = objectToRecollect.GetComponent<BallBehaviour>();
+        script.CurrentColor = BoxColor.None;
 
         ++totalCount;
     }

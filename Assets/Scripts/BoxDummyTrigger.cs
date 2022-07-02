@@ -20,51 +20,58 @@ public class BoxDummyTrigger : MonoBehaviour
         {
             var ballScript = other.GetComponent<BallBehaviour>();
             ballScript.InsideBox = true;
-
-            //Rigidbody rb = collide.GetComponent<Rigidbody>();
-            //if (rb.velocity.y > 0)
-            //{
-            //    UpdateColorCount(-1);
-            //    --gameManager.BoxedBalls;
-            //    Debug.Log("out: " + gameManager.BoxedBalls);
-            //}
-            //else
-            //{
-            //    UpdateColorCount(1);
-            //    ++gameManager.BoxedBalls;
-            //    Debug.Log("in: " + gameManager.BoxedBalls);
-            //}
+            ballScript.CurrentColor = boxColor;
 
             UpdateColorCount(1);
             ++gameManager.BoxedBalls;
-            //Debug.Log("in: " + gameManager.BoxedBalls);
+
+
+            Debug.Log("in: " + ballScript.BallID + ", count: " + gameManager.BoxedBalls);
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Ball"))
+        {
+            UpdateColorCount(-1);
+            --gameManager.BoxedBalls;
+
+            var ballScript = other.GetComponent<BallBehaviour>();
+            ballScript.InsideBox = false;
+            ballScript.CurrentColor = BoxColor.None;
+
+            Debug.Log("in: " + ballScript.BallID + ", count: " + gameManager.BoxedBalls);
         }
     }
 
     void UpdateColorCount(int value)
     {
-        switch (boxColor)
-        {
-            case BoxColor.Red:
-                gameManager.RedCount += value;
-                break;
-            case BoxColor.Blue:
-                gameManager.BlueCount += value;
-                break;
-            case BoxColor.Green:
-                gameManager.GreenCount += value;
-                break;
-            case BoxColor.Yellow:
-                gameManager.YellowCount += value;
-                break;
-        }
+        //switch (boxColor)
+        //{
+        //    case BoxColor.Red:
+        //        gameManager.RedCount += value;
+        //        break;
+        //    case BoxColor.Blue:
+        //        gameManager.BlueCount += value;
+        //        break;
+        //    case BoxColor.Green:
+        //        gameManager.GreenCount += value;
+        //        break;
+        //    case BoxColor.Yellow:
+        //        gameManager.YellowCount += value;
+        //        break;
+        //}
 
-        gameManager.ShowColorCount();
+        //gameManager.ShowColorCount();
+
+        gameManager.UpdateColorCount(value, boxColor);
     }
 }
 
 public enum BoxColor
 {
+    None,
     Red,
     Blue,
     Green,

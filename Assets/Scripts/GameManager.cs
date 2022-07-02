@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,12 +15,12 @@ public class GameManager : MonoBehaviour
 
     public int BoxedBalls { get; set; }         // number of balls successfully lie within the boxes
 
+    public int InStockBalls { get; private set; }       // number of balls that can still be spawned
+
     public int RedCount { get; set; }
     public int BlueCount { get; set; }
     public int GreenCount { get; set; }
     public int YellowCount { get; set; }
-
-    bool onHoldSpawnButton = false;
 
     bool onProcessingFinish = false;
 
@@ -27,20 +28,25 @@ public class GameManager : MonoBehaviour
 
     int totalBalls;
 
-    private SpawnManager spawnManager;
+    float originalTimeScale;
 
-    private GateBehaviour gateBehaviour;
+    SpawnManager spawnManager;
 
-    private AutoRotate containerRotateScript;
+    UIManager uiManager;
 
-    private AutoRotate platformRotateScript;
+    GateBehaviour gateBehaviour;
+
+    AutoRotate containerRotateScript;
+
+    AutoRotate platformRotateScript;
 
     // Start is called before the first frame update
     void Start()
     {
         spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
-        gateBehaviour = ballContainer.GetComponent<GateBehaviour>();
+        uiManager = GameObject.Find("UserInterface").GetComponent<UIManager>();
 
+        gateBehaviour = ballContainer.GetComponent<GateBehaviour>();
         containerRotateScript = ballContainer.GetComponent<AutoRotate>();
         platformRotateScript = platform.GetComponent<AutoRotate>();
 
@@ -48,40 +54,47 @@ public class GameManager : MonoBehaviour
 
         IsGameRunning = true;
         BoxedBalls = 0;
+        InStockBalls = totalBalls;
+
+        originalTimeScale = Time.timeScale;
+
+        uiManager.UpdateInStockText(InStockBalls);
+        uiManager.UpdateColorCountText(0, 0, 0, 0);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Fire1"))
-        {
-            onHoldSpawnButton = true;
-        }
-        else if (Input.GetButtonUp("Fire1"))
-        {
-            onHoldSpawnButton = false;
-        }
-
-        if (IsGameRunning && Input.GetButtonDown("Fire2"))
-        {
-            gateBehaviour.ToggleGate();
-        }
-
         spawnCooldown -= Time.deltaTime;
 
         CheckGameFinish();
     }
 
-    void LateUpdate()
+    public void UpdateColorCount(int value, BoxColor color)
     {
-        if (IsGameRunning && onHoldSpawnButton && spawnCooldown < 0)
+        switch (color)
         {
-            spawnManager.SpawnSingle();
-            spawnCooldown = spawnManager.spawnCooldown;
+            case BoxColor.Red:
+                RedCount += value;
+                break;
+            case BoxColor.Blue:
+                BlueCount += value;
+                break;
+            case BoxColor.Green:
+                GreenCount += value;
+                break;
+            case BoxColor.Yellow:
+                YellowCount += value;
+                break;
         }
+
+        uiManager.UpdateColorCountText(RedCount, BlueCount, GreenCount, YellowCount);
+
+        // Debug
+        ShowColorCount();
     }
 
-    public void ShowColorCount()
+    void ShowColorCount()
     {
         Debug.LogFormat("R: {0}, B: {1}, G: {2}, Y: {3}", RedCount, BlueCount, GreenCount, YellowCount);
     }
@@ -106,5 +119,82 @@ public class GameManager : MonoBehaviour
 
         onProcessingFinish = false;
         IsGameRunning = false;
+
+        yield return new WaitForSeconds(0.5f);
+        EndGame();
+    }
+
+    public void ToggleGate()
+    {
+        gateBehaviour.ToggleGate();
+    }
+
+    public void SpawnObject()
+    {
+        if (IsGameRunning && spawnCooldown < 0)
+        {
+            spawnManager.SpawnSingle();
+            spawnCooldown = spawnManager.spawnCooldown;
+
+            if (InStockBalls > 0)
+            {
+                uiManager.UpdateInStockText(--InStockBalls);
+            }
+        }
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        Time.timeScale = originalTimeScale;
+    }
+
+    public void RecollectDestroyedObject(GameObject gameObject)
+    {
+        var ballBehaviour = gameObject.GetComponent<BallBehaviour>();
+        UpdateColorCount(-1, ballBehaviour.CurrentColor);
+
+        spawnManager.RecollectDestroyedObject(gameObject);
+        uiManager.UpdateInStockText(++InStockBalls);
+    }
+
+    void EndGame()
+    {
+        Time.timeScale = 0f;
+
+        uiManager.UpdateCongratText(GetWinnerColor());
+        uiManager.ShowGameOverScreen();
+        uiManager.DisableMainScreenButton();
+    }
+
+    List<BoxColor> GetWinnerColor()
+    {
+        var countList = new List<int>();
+        countList.Add(RedCount);
+        countList.Add(GreenCount);
+        countList.Add(BlueCount);
+        countList.Add(YellowCount);
+
+        var maxCount = Mathf.Max(countList.ToArray());
+
+        var winnerColors = new List<BoxColor>();
+        if (maxCount == RedCount)
+        {
+            winnerColors.Add(BoxColor.Red);
+        }
+        if (maxCount == BlueCount)
+        {
+            winnerColors.Add(BoxColor.Blue);
+        }
+        if (maxCount == GreenCount)
+        {
+            winnerColors.Add(BoxColor.Green);
+        }
+        if (maxCount == YellowCount)
+        {
+            winnerColors.Add(BoxColor.Yellow);
+        }
+
+        return winnerColors;
     }
 }
