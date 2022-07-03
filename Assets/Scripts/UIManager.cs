@@ -26,6 +26,12 @@ public class UIManager : MonoBehaviour
 
     SpawnButtonBehaviour spawnButtonBehaviour;
 
+    Color colorRedWin = new Color(245f / 255f, 73f / 255f, 79f / 255f);
+    Color colorBlueWin = new Color(0f / 255f, 122f / 255f, 255f / 255f);
+    Color colorGreenWin = new Color(0f / 255f, 214f / 255f, 40f / 255f);
+    Color colorYellowWin = new Color(197f / 255f, 204f / 255f, 0f / 255f);
+    Color colorMultipleWinners = Color.white;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -61,6 +67,22 @@ public class UIManager : MonoBehaviour
         {
             var winnerColor = winnerColors[0];
             winnerText.SetText("CONGRATULATION\n" + winnerColor + " WINS");
+
+            switch (winnerColor)
+            {
+                case BoxColor.Red:
+                    winnerText.color = colorRedWin;
+                    break;
+                case BoxColor.Blue:
+                    winnerText.color = colorBlueWin;
+                    break;
+                case BoxColor.Green:
+                    winnerText.color = colorGreenWin;
+                    break;
+                case BoxColor.Yellow:
+                    winnerText.color = colorYellowWin;
+                    break;
+            }
         }
         else
         {
@@ -80,6 +102,7 @@ public class UIManager : MonoBehaviour
             sb.Append(" WIN");
 
             winnerText.SetText(sb.ToString());
+            winnerText.color = colorMultipleWinners;
         }
     }
 
