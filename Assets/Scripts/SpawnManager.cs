@@ -21,18 +21,21 @@ public class SpawnManager : MonoBehaviour
 
     Vector3 vector3Zero = Vector3.zero;
 
+    AudioManager audioManager;
+
     // Start is called before the first frame update
     void Start()
     {
         pooler = GetComponent<ObjectPooler>();
         position = spawnPosition.transform.position;
 
-        //StartSpawning();
+        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
     }
 
     public void SpawnSingle()
     {
         SpawnPooledObject();
+        audioManager.PlaySpawnSound();
     }
 
     void StartSpawning()

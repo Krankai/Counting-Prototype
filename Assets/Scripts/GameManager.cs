@@ -34,6 +34,8 @@ public class GameManager : MonoBehaviour
 
     UIManager uiManager;
 
+    AudioManager audioManager;
+
     GateBehaviour gateBehaviour;
 
     AutoRotate containerRotateScript;
@@ -45,6 +47,7 @@ public class GameManager : MonoBehaviour
     {
         spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
         uiManager = GameObject.Find("UserInterface").GetComponent<UIManager>();
+        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
 
         gateBehaviour = ballContainer.GetComponent<GateBehaviour>();
         containerRotateScript = ballContainer.GetComponent<AutoRotate>();
@@ -90,6 +93,11 @@ public class GameManager : MonoBehaviour
 
         uiManager.UpdateColorCountText(RedCount, BlueCount, GreenCount, YellowCount);
 
+        if (value > 0)
+        {
+            audioManager.PlayCountSound();
+        }
+
         // Debug
         ShowColorCount();
     }
@@ -127,6 +135,7 @@ public class GameManager : MonoBehaviour
     public void ToggleGate()
     {
         gateBehaviour.ToggleGate();
+        audioManager.PlayGateSound();
     }
 
     public void SpawnObject()
