@@ -174,6 +174,8 @@ public class GameManager : MonoBehaviour
         uiManager.UpdateCongratText(GetWinnerColor());
         uiManager.ShowGameOverScreen();
         uiManager.DisableMainScreenButton();
+
+        audioManager.LowerVolumeBGMToEnd(5);
     }
 
     List<BoxColor> GetWinnerColor()
