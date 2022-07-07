@@ -169,7 +169,7 @@ public class GameManager : MonoBehaviour
 
     void EndGame()
     {
-        Time.timeScale = 0f;
+        //Time.timeScale = 0f;
 
         uiManager.UpdateCongratText(GetWinnerColor());
         uiManager.ShowGameOverScreen();

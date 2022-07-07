@@ -34,8 +34,11 @@ public class SpawnManager : MonoBehaviour
 
     public void SpawnSingle()
     {
-        SpawnPooledObject();
-        audioManager.PlaySpawnSound();
+        bool canSpawn = SpawnPooledObject();
+        if (canSpawn)
+        {
+            audioManager.PlaySpawnSound();
+        }
     }
 
     void StartSpawning()
@@ -48,11 +51,12 @@ public class SpawnManager : MonoBehaviour
         CancelInvoke();
     }
 
-    void SpawnPooledObject()
+    // Return true if can spawn object; otherwise, return false
+    bool SpawnPooledObject()
     {
         if (totalCount <= 0)
         {
-            return;
+            return false;
         }
 
         var pooledObject = pooler.GetPooledObject();
@@ -62,7 +66,11 @@ public class SpawnManager : MonoBehaviour
             pooledObject.SetActive(true);
 
             --totalCount;
+
+            return true;
         }
+
+        return false;
     }
 
     public void RecollectDestroyedObject(GameObject objectToRecollect)
