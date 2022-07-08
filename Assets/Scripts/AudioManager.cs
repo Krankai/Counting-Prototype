@@ -53,7 +53,7 @@ public class AudioManager : MonoBehaviour
     }
 
     // Play when the pool is empty (= cannot spawn object anymore)
-    public void PlaySpawnSoundEmpty()
+    public void PlaySpawnEmptySound()
     {
         spawnEmptySound.Play();
     }

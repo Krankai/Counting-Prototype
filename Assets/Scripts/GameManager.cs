@@ -165,6 +165,7 @@ public class GameManager : MonoBehaviour
 
         spawnManager.RecollectDestroyedObject(gameObject);
         uiManager.UpdateInStockText(++InStockBalls);
+        audioManager.PlayRecollectSound();
     }
 
     void EndGame()

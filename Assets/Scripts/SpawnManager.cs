@@ -39,6 +39,10 @@ public class SpawnManager : MonoBehaviour
         {
             audioManager.PlaySpawnSound();
         }
+        else
+        {
+            audioManager.PlaySpawnEmptySound();
+        }
     }
 
     void StartSpawning()

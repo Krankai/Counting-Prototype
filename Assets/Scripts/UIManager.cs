@@ -14,6 +14,9 @@ public class UIManager : MonoBehaviour
     TextMeshProUGUI redCountText, greenCountText, blueCountText, yellowCountText;
 
     [SerializeField]
+    GameObject countEffectPrefab;
+
+    [SerializeField]
     GameObject gameOverScreen;
 
     [SerializeField]
@@ -125,5 +128,32 @@ public class UIManager : MonoBehaviour
     {
         spawnButton.interactable = false;
         gateButton.interactable = false;
+    }
+
+    void ShowCountEffect(BoxColor boxColor)
+    {
+        // Determine screen position for effect
+        Vector3 screenShownPosition = redCountText.transform.position;
+        switch (boxColor)
+        {
+            case BoxColor.Red:
+                screenShownPosition = redCountText.transform.position;
+                break;
+            case BoxColor.Blue:
+                screenShownPosition = blueCountText.transform.position;
+                break;
+            case BoxColor.Green:
+                screenShownPosition = greenCountText.transform.position;
+                break;
+            case BoxColor.Yellow:
+                screenShownPosition = yellowCountText.transform.position;
+                break;
+        }
+
+        // Transform to world space position
+        Vector3 worldShownPosition = Camera.main.ScreenToWorldPoint(screenShownPosition);
+
+        // Show effect
+        Instantiate(countEffectPrefab, worldShownPosition, countEffectPrefab.transform.rotation);
     }
 }
