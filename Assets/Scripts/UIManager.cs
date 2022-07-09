@@ -35,6 +35,9 @@ public class UIManager : MonoBehaviour
     Color colorYellowWin = new Color(197f / 255f, 204f / 255f, 0f / 255f);
     Color colorMultipleWinners = Color.white;
 
+    float uiEffectXOffset = 3f;
+    float uiEffectZ = 5f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -71,21 +74,21 @@ public class UIManager : MonoBehaviour
             var winnerColor = winnerColors[0];
             winnerText.SetText("CONGRATULATION\n" + winnerColor + " WINS");
 
-            switch (winnerColor)
-            {
-                case BoxColor.Red:
-                    winnerText.color = colorRedWin;
-                    break;
-                case BoxColor.Blue:
-                    winnerText.color = colorBlueWin;
-                    break;
-                case BoxColor.Green:
-                    winnerText.color = colorGreenWin;
-                    break;
-                case BoxColor.Yellow:
-                    winnerText.color = colorYellowWin;
-                    break;
-            }
+            //switch (winnerColor)
+            //{
+            //    case BoxColor.Red:
+            //        winnerText.color = colorRedWin;
+            //        break;
+            //    case BoxColor.Blue:
+            //        winnerText.color = colorBlueWin;
+            //        break;
+            //    case BoxColor.Green:
+            //        winnerText.color = colorGreenWin;
+            //        break;
+            //    case BoxColor.Yellow:
+            //        winnerText.color = colorYellowWin;
+            //        break;
+            //}
         }
         else
         {
@@ -105,8 +108,10 @@ public class UIManager : MonoBehaviour
             sb.Append(" WIN");
 
             winnerText.SetText(sb.ToString());
-            winnerText.color = colorMultipleWinners;
+            //winnerText.color = colorMultipleWinners;
         }
+
+        winnerText.color = GetCombineColor(winnerColors);
     }
 
     public void OnGateButtonPressed()
@@ -130,30 +135,64 @@ public class UIManager : MonoBehaviour
         gateButton.interactable = false;
     }
 
-    void ShowCountEffect(BoxColor boxColor)
+    public void ShowCountEffect(BoxColor boxColor)
     {
+        var colorCountText = GetColorUI(boxColor);
+        if (colorCountText == null) return;
+
         // Determine screen position for effect
-        Vector3 screenShownPosition = redCountText.transform.position;
-        switch (boxColor)
-        {
-            case BoxColor.Red:
-                screenShownPosition = redCountText.transform.position;
-                break;
-            case BoxColor.Blue:
-                screenShownPosition = blueCountText.transform.position;
-                break;
-            case BoxColor.Green:
-                screenShownPosition = greenCountText.transform.position;
-                break;
-            case BoxColor.Yellow:
-                screenShownPosition = yellowCountText.transform.position;
-                break;
-        }
+        Vector3 screenShownPosition = colorCountText.transform.position;
+        screenShownPosition.x -= colorCountText.rectTransform.rect.width + uiEffectXOffset;
+        screenShownPosition.z = uiEffectZ;
 
         // Transform to world space position
         Vector3 worldShownPosition = Camera.main.ScreenToWorldPoint(screenShownPosition);
 
         // Show effect
         Instantiate(countEffectPrefab, worldShownPosition, countEffectPrefab.transform.rotation);
+    }
+
+    TextMeshProUGUI GetColorUI(BoxColor boxColor)
+    {
+        switch (boxColor)
+        {
+            case BoxColor.Red:
+                return redCountText;
+            case BoxColor.Blue:
+                return blueCountText;
+            case BoxColor.Green:
+                return greenCountText;
+            case BoxColor.Yellow:
+                return yellowCountText;
+            default:
+                return null;
+        }
+    }
+
+    Color GetCombineColor(List<BoxColor> winnerColors)
+    {
+        Color accumulatedColor = new Color();
+
+        foreach (var color in winnerColors)
+        {
+            switch (color)
+            {
+                case BoxColor.Red:
+                    accumulatedColor += colorRedWin;
+                    break;
+                case BoxColor.Blue:
+                    accumulatedColor += colorBlueWin;
+                    break;
+                case BoxColor.Green:
+                    accumulatedColor += colorGreenWin;
+                    break;
+                case BoxColor.Yellow:
+                    accumulatedColor += colorYellowWin;
+                    break;
+            }
+        }
+
+        accumulatedColor /= winnerColors.Count;
+        return accumulatedColor;
     }
 }

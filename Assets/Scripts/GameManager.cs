@@ -92,6 +92,7 @@ public class GameManager : MonoBehaviour
         }
 
         uiManager.UpdateColorCountText(RedCount, BlueCount, GreenCount, YellowCount);
+        uiManager.ShowCountEffect(color);
 
         if (value > 0)
         {

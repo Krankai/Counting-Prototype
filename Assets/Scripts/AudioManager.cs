@@ -22,15 +22,12 @@ public class AudioManager : MonoBehaviour
     AudioSource bgm;
 
     float volumeSpeed = 2.5f;
-    float originalVolume;
     float bgmEndDuration = 0f;
-    float startTime = 0f;
 
     // Start is called before the first frame update
     void Start()
     {
         bgm = GetComponent<AudioSource>();
-        originalVolume = bgm.volume;
     }
 
     // Update is called once per frame
@@ -42,6 +39,8 @@ public class AudioManager : MonoBehaviour
             if (bgm.volume <= 0)
             {
                 bgmEndDuration = 0f;
+                bgm.Stop();
+
                 Time.timeScale = 0f;
             }
         }
@@ -77,6 +76,5 @@ public class AudioManager : MonoBehaviour
     public void LowerVolumeBGMToEnd(float duration)
     {
         bgmEndDuration = duration;
-        startTime = Time.time;
     }
 }
