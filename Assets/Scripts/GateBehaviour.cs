@@ -18,9 +18,4 @@ public class GateBehaviour : MonoBehaviour
             gateObject.SetActive(true);
         }
     }
-
-    public bool IsOpened()
-    {
-        return !gateObject.activeInHierarchy;
-    }
 }

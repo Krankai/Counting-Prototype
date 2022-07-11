@@ -100,13 +100,13 @@ public class GameManager : MonoBehaviour
         }
 
         // Debug
-        ShowColorCount();
+        //ShowColorCount();
     }
 
-    void ShowColorCount()
-    {
-        Debug.LogFormat("R: {0}, B: {1}, G: {2}, Y: {3}", RedCount, BlueCount, GreenCount, YellowCount);
-    }
+    // void ShowColorCount()
+    // {
+    //     Debug.LogFormat("R: {0}, B: {1}, G: {2}, Y: {3}", RedCount, BlueCount, GreenCount, YellowCount);
+    // }
 
     public void CheckGameFinish()
     {
@@ -171,13 +171,11 @@ public class GameManager : MonoBehaviour
 
     void EndGame()
     {
-        //Time.timeScale = 0f;
-
         uiManager.UpdateCongratText(GetWinnerColor());
         uiManager.ShowGameOverScreen();
         uiManager.DisableMainScreenButton();
 
-        audioManager.LowerVolumeBGMToEnd(5);
+        audioManager.StartLoweringBGMVolume(5);
     }
 
     List<BoxColor> GetWinnerColor()

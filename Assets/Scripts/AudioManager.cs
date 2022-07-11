@@ -40,8 +40,6 @@ public class AudioManager : MonoBehaviour
             {
                 bgmEndDuration = 0f;
                 bgm.Stop();
-
-                Time.timeScale = 0f;
             }
         }
     }
@@ -73,7 +71,7 @@ public class AudioManager : MonoBehaviour
     }
 
     // Gradually lower the volume of BGM (until 0) over the specified duration
-    public void LowerVolumeBGMToEnd(float duration)
+    public void StartLoweringBGMVolume(float duration)
     {
         bgmEndDuration = duration;
     }

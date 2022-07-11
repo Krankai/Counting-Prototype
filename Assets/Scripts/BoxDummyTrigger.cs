@@ -26,7 +26,7 @@ public class BoxDummyTrigger : MonoBehaviour
             ++gameManager.BoxedBalls;
 
 
-            Debug.Log("in: " + ballScript.BallID + ", count: " + gameManager.BoxedBalls);
+            //Debug.Log("in: " + ballScript.BallID + ", count: " + gameManager.BoxedBalls);
         }
     }
 
@@ -41,30 +41,12 @@ public class BoxDummyTrigger : MonoBehaviour
             ballScript.InsideBox = false;
             ballScript.CurrentColor = BoxColor.None;
 
-            Debug.Log("in: " + ballScript.BallID + ", count: " + gameManager.BoxedBalls);
+            //Debug.Log("in: " + ballScript.BallID + ", count: " + gameManager.BoxedBalls);
         }
     }
 
     void UpdateColorCount(int value)
     {
-        //switch (boxColor)
-        //{
-        //    case BoxColor.Red:
-        //        gameManager.RedCount += value;
-        //        break;
-        //    case BoxColor.Blue:
-        //        gameManager.BlueCount += value;
-        //        break;
-        //    case BoxColor.Green:
-        //        gameManager.GreenCount += value;
-        //        break;
-        //    case BoxColor.Yellow:
-        //        gameManager.YellowCount += value;
-        //        break;
-        //}
-
-        //gameManager.ShowColorCount();
-
         gameManager.UpdateColorCount(value, boxColor);
     }
 }

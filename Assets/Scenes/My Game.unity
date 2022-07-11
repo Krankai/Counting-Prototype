@@ -2993,7 +2993,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56a9b424d525483498b81adae165b0dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  totalCount: 5
+  totalCount: 15
   spawnCooldown: 0.5
   spawnPosition: {fileID: 2024918392}
   spawnInterval: 2.5

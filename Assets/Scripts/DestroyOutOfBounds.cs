@@ -30,21 +30,21 @@ public class DestroyOutOfBounds : MonoBehaviour
         // X axis
         if (transform.position.x < -rangeX || transform.position.x > rangeX)
         {
-            DebugLogDestroyed("x");
+            //DebugLogDestroyed("x");
             gameManager.RecollectDestroyedObject(gameObject);
         }
 
         // Y axis
         if (transform.position.y < minY || transform.position.y > maxY)
         {
-            DebugLogDestroyed("y");
+            //DebugLogDestroyed("y");
             gameManager.RecollectDestroyedObject(gameObject);
         }
 
         // Z axis
         if (transform.position.z < -rangeZ || transform.position.z > rangeZ)
         {
-            DebugLogDestroyed("z");
+            //DebugLogDestroyed("z");
             gameManager.RecollectDestroyedObject(gameObject);
         }
     }
@@ -59,10 +59,10 @@ public class DestroyOutOfBounds : MonoBehaviour
     }
 
     // Debug
-    void DebugLogDestroyed(string axis)
-    {
-        var script = gameObject.GetComponent<BallBehaviour>();
+    // void DebugLogDestroyed(string axis)
+    // {
+    //     var script = gameObject.GetComponent<BallBehaviour>();
 
-        Debug.Log("Destroyed: " + axis + ", color: " + script.CurrentColor);
-    }
+    //     Debug.Log("Destroyed: " + axis + ", color: " + script.CurrentColor);
+    // }
 }

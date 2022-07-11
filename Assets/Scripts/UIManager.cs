@@ -73,22 +73,6 @@ public class UIManager : MonoBehaviour
         {
             var winnerColor = winnerColors[0];
             winnerText.SetText("CONGRATULATION\n" + winnerColor + " WINS");
-
-            //switch (winnerColor)
-            //{
-            //    case BoxColor.Red:
-            //        winnerText.color = colorRedWin;
-            //        break;
-            //    case BoxColor.Blue:
-            //        winnerText.color = colorBlueWin;
-            //        break;
-            //    case BoxColor.Green:
-            //        winnerText.color = colorGreenWin;
-            //        break;
-            //    case BoxColor.Yellow:
-            //        winnerText.color = colorYellowWin;
-            //        break;
-            //}
         }
         else
         {
@@ -108,7 +92,6 @@ public class UIManager : MonoBehaviour
             sb.Append(" WIN");
 
             winnerText.SetText(sb.ToString());
-            //winnerText.color = colorMultipleWinners;
         }
 
         winnerText.color = GetCombineColor(winnerColors);
