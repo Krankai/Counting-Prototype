@@ -14,6 +14,9 @@ public class UIManager : MonoBehaviour
     TextMeshProUGUI redCountText, greenCountText, blueCountText, yellowCountText;
 
     [SerializeField]
+    GameObject redEffectPlaceholder, blueEffectPlaceholder, greenEffectPlaceholder, yellowEffectPlaceholder;
+
+    [SerializeField]
     GameObject countEffectPrefab;
 
     [SerializeField]
@@ -35,7 +38,8 @@ public class UIManager : MonoBehaviour
     Color colorYellowWin = new Color(197f / 255f, 204f / 255f, 0f / 255f);
     Color colorMultipleWinners = Color.white;
 
-    float uiEffectXOffset = 3f;
+    Vector3 vector3Zero = Vector3.zero;
+
     float uiEffectZ = 5f;
 
     // Start is called before the first frame update
@@ -124,8 +128,7 @@ public class UIManager : MonoBehaviour
         if (colorCountText == null) return;
 
         // Determine screen position for effect
-        Vector3 screenShownPosition = colorCountText.transform.position;
-        screenShownPosition.x -= colorCountText.rectTransform.rect.width + uiEffectXOffset;
+        Vector3 screenShownPosition = GetEffectPlaceholderPosition(boxColor);
         screenShownPosition.z = uiEffectZ;
 
         // Transform to world space position
@@ -177,5 +180,22 @@ public class UIManager : MonoBehaviour
 
         accumulatedColor /= winnerColors.Count;
         return accumulatedColor;
+    }
+
+    Vector3 GetEffectPlaceholderPosition(BoxColor boxColor)
+    {
+        switch (boxColor)
+        {
+            case BoxColor.Red:
+                return redEffectPlaceholder.transform.position;
+            case BoxColor.Blue:
+                return blueEffectPlaceholder.transform.position;
+            case BoxColor.Green:
+                return greenEffectPlaceholder.transform.position;
+            case BoxColor.Yellow:
+                return yellowEffectPlaceholder.transform.position;
+            default:
+                return vector3Zero;
+        }
     }
 }
